@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>探秘大梅沙的蓝眼泪 - 科学教育站</title>
+
+    <style>
+        /* (大部分 CSS 样式与 V15.10 相同) */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", "Microsoft YaHei";
+            margin: 0;
+            padding: 0;
+            padding-top: 60px;
+            background-color: #1d1d1f; 
+            color: #e0e0e0;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        
+        h1, h2, h3 {
+            font-weight: 600;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            text-align: center;
+        }
+        .project-main-title {
+            font-size: 2.8rem;
+            color: #007BFF;
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 50px;
+            padding: 0 20px;
+            line-height: 1.2;
+            text-shadow: 0 0 15px rgba(0, 123, 255, 0.4);
+        }
+        @media (max-width: 768px) {
+            .project-main-title {
+                font-size: 2rem;
+                margin-top: 20px;
+                margin-bottom: 30px;
+            }
+        }
+
+        h2 {
+            font-size: 2rem; 
+            color: #007BFF;
+            text-align: left;
+            margin-bottom: 20px;
+            margin-top: 0;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            color: #eee;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+        
+        p, ul {
+            font-size: 1rem;
+            text-align: left;
+            margin: 15px 0;
+            color: #ccc;
+        }
+        
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid #333;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 20px;
+            height: 60px;
+        }
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1100px;
+        }
+        .nav-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #fff;
+        }
+        .nav-links a {
+            color: #eee;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: #007BFF;
+            background-color: transparent;
+        }
+        .nav-links a.active {
+            color: #007BFF;
+            background-color: transparent;
+            font-weight: 600;
+        }
+        
+        #dameisha-beach {
+            position: relative;
+            height: 400px;
+            background-color: #001529;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            overflow: hidden;
+        }
+        
+        /* *** 变更：修复 z-index 问题 *** */
+        .hero-text {
+            position: relative;
+            z-index: 2; /* 确保文字在 Canvas 之上 */
+        }
+        .hero-text h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: white;
+            text-align: center;
+        }
+        .hero-text p {
+            font-size: 1.2rem;
+            color: #cceeff;
+            text-align: center;
+        }
+        #blue-tears-canvas {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1; /* Canvas 在文字之下 */
+            cursor: crosshair;
+        }
+        
+        main {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        
+        .card {
+            background: linear-gradient(to bottom, #2a2a2e, #1c1c1e);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            padding: 0;
+            overflow: hidden;
+        }
+        .card-image {
+            width: 100%;
+            height: 300px; /* 默认高度 */
+            object-fit: cover;
+            display: block;
+            mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+        }
+        .card-content {
+            padding: 30px;
+        }
+
+        .page-content { display: none; }
+        .page-content.active { display: block; }
+
+        #fact-button {
+            background-color: #007BFF;
+            color: #FFFFFF;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        #fact-button:hover { background-color: #0056b3; }
+        
+        #fact-content {
+            display: none;
+            background: linear-gradient(to bottom, #2a2a2e, #1c1c1e);
+            border: 1px solid #333;
+            padding: 20px;
+            margin-top: 25px;
+            border-radius: 5px;
+        }
+        
+        .science-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+        
+        .key-terms-box {
+            background: #002b4d;
+            border: 1px solid #0056b3;
+            border-left: 5px solid #007BFF;
+            padding: 20px;
+            border-radius: 5px;
+            height: fit-content;
+            margin-bottom: 20px;
+        }
+        .key-terms-box h3 {
+            margin-top: 0;
+            color: #e6f7ff;
+            font-size: 1.5rem;
+        }
+        .key-terms-box p {
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+        }
+
+        .main-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #fff;
+            text-align: center;
+            margin: 40px 0 20px 0;
+        }
+        .promo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .promo-card {
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; 
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            padding: 30px;
+            text-align: left; 
+            position: relative;
+            overflow: hidden;
+            color: #fff;
+            background-color: #1c1c1e;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .promo-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.1) 100%);
+            z-index: 1;
+        }
+        .promo-card > * {
+            position: relative;
+            z-index: 2; 
+        }
+        .promo-card h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #fff;
+            margin-top: 0;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        .promo-card p {
+            font-size: 1.1rem;
+            color: #ccc;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .promo-card .category {
+            font-size: 0.9rem;
+            color: #bbb;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        .promo-card .learn-more {
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: 500;
+            font-size: 1rem;
+            display: inline-block;
+            margin-top: 15px;
+        }
+        .promo-card-image {
+            display: none; 
+        }
+        .fallback-image {
+            display: none;
+        }
+
+        .featured-promo {
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            padding: 30px;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+            color: #fff;
+            background-color: #1c1c1e;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .featured-promo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.1) 100%);
+            z-index: 1;
+        }
+        .featured-promo > * {
+            position: relative;
+            z-index: 2;
+        }
+        .featured-promo h3 {
+            font-size: 1.8rem;
+            color: #fff;
+            margin-top: 0;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        .featured-promo p {
+            font-size: 1.1rem;
+            color: #ccc;
+            text-align: left;
+        }
+        .featured-promo .learn-more {
+             text-decoration: none;
+            color: #007BFF;
+            font-weight: 500;
+            font-size: 1.1rem;
+            display: inline-block;
+            margin-top: 15px;
+        }
+        .featured-promo-image {
+             display: none;
+        }
+        .featured-promo-content {
+            padding: 0;
+        }
+        
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        
+        .back-link {
+            display: inline-block;
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            transition: color 0.3s;
+        }
+        .back-link:hover {
+            color: #33aaff;
+        }
+        
+        .project-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .chart-image {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .chart-caption {
+            font-size: 0.9rem;
+            color: #888;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        footer {
+            text-align: center;
+            color: #6e6e73;
+            font-size: 0.9rem;
+            padding: 30px 20px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .science-layout {
+                grid-template-columns: 1fr;
+            }
+            .key-terms-box {
+                grid-row: 1;
+                margin-bottom: 20px;
+            }
+            h2 { font-size: 1.8rem; }
+            .hero-text h2 { font-size: 2.5rem; }
+            
+            .promo-grid {
+                grid-template-columns: 1fr;
+            }
+            .main-title {
+                font-size: 2rem;
+            }
+            
+            .featured-promo {
+                grid-template-columns: 1fr;
+            }
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .promo-card, .featured-promo {
+                background-image: none !important;
+                background: linear-gradient(to bottom, #2a2a2e, #1c1c1e);
+                min-height: auto;
+                padding: 30px;
+                text-align: center;
+            }
+            .promo-card::before, .featured-promo::before {
+                display: none;
+            }
+            .promo-card h3, .promo-card p, .promo-card .learn-more, .promo-card .category,
+            .featured-promo h3, .featured-promo p, .featured-promo .learn-more, .featured-promo .category {
+                text-align: center;
+            }
+            .promo-card .learn-more, .featured-promo .learn-more {
+                margin-top: 15px;
+            }
+            .fallback-image {
+                display: block;
+                width: 100%;
+                max-width: 400px;
+                height: 200px;
+                object-fit: cover;
+                margin: 20px auto 0;
+                border-radius: 8px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    
+    <nav>
+        <div class="nav-content">
+            <div class="nav-title">探秘蓝眼泪</div>
+            <div class="nav-links">
+                <a href="#" class="nav-link active" data-page="home">首页</a>
+                <a href="#" class="nav-link" data-page="science">科学与思考</a>
+                <a href="#" class="nav-link" data-page="guide">观赏指南</a>
+                <a href="#" class="nav-link" data-page="protection">生态守护</a>
+                <a href="#" class="nav-link" data-page="project">我们的研究</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div id="page-home" class="page-content active">
+        <section id="dameisha-beach">
+            <div class="hero-text">
+                <h2>蓝眼泪认知调研与生态守护行动</h2>
+                <p>在下方深色海域交互，唤醒沉睡的“蓝眼泪”</p>
+            </div>
+            <canvas id="blue-tears-canvas"></canvas>
+        </section>
+        
+        <main>
+            <h2 class="main-title">蓝眼泪：科学与自然的交汇</h2>
+            <div class="promo-grid">
+                
+                <section class="promo-card" style="background-image: url('MoreSeaSparkle_0.webp');">
+                    <div>
+                        <span class="category">科学解读</span>
+                        <h3>什么是“蓝眼泪”？</h3>
+                        <p>一种由夜光藻等浮游生物发出的生物荧光，也是生态系统的重要指示器。</p>
+                        <a href="#" class="learn-more" data-page-link="science">进一步了解 &gt;</a>
+                    </div>
+                    <img src="MoreSeaSparkle_0.webp" alt="蓝眼泪现象" class="fallback-image">
+                </section>
+
+                <section class="promo-card" style="background-image: url('_2_alu__.jpg');">
+                    <div>
+                        <span class="category">生态观察</span>
+                        <h3>大梅沙的“昙花一现”</h3>
+                        <p>因旅游、船只与光污染干扰，这种美丽极为脆弱，提醒我们共同呵护。</p>
+                        <a href="#" class="learn-more" data-page-link="guide">进一步了解 &gt;</a>
+                    </div>
+                    <img src="_2_alu__.jpg" alt="大梅沙海滩夜景" class="fallback-image">
+                </section>
+                
+            </div>
+            
+            <section class="card featured-promo" style="background-image: url('AA.jpg');">
+                <div>
+                    <span class="category">本站核心</span>
+                    <h3>欣赏还是打扰？</h3>
+                    <p>“蓝眼泪”的美丽是脆弱的。当观赏行为本身成为一种干扰时，我们应如何反思？探索人与自然共生的伦理边界。</p>
+                    <a href="#" class="learn-more" data-page-link="science">前往“科学与思考” &gt;</a>
+                </div>
+                <img src="AA.jpg" alt="思考自然" class="fallback-image">
+            </section>
+            
+            <section class="card" id="home-video">
+                <div class="card-content">
+                    <h2>相关影像</h2>
+                    <p>通过影像，直观感受蓝眼泪的生态与魅力。</p>
+                    <div class="video-container">
+                        <iframe src="//player.bilibili.com/player.html?bvid=BV1vb421J73T&page=1"
+                            scrolling="no" border="0" frameborder="no" framespacing="0"
+                            allowfullscreen="true">
+                        </iframe>
+                    </div>
+                </div>
+            </section>
+            
+        </main>
+    </div>
+
+    <div id="page-science" class="page-content">
+        <main>
+            <a href="#" class="back-link" data-page-link="home">&lt; 返回首页</a>
+            
+            <div class="science-layout">
+                
+                <div>
+                    <section class="card" id="science-behind">
+                        <img src="maxresdefault.jpg" alt="显微镜下的夜光藻" class="card-image">
+                        <div class="card-content">
+                            <h2>荧光背后的科学</h2>
+                            <p>“蓝眼泪”的发光是一种生物发光。其主要贡献者夜光藻 (Noctiluca scintillans) 的细胞内，含有两种关键化学物质。</p>
+                            <p>当它受到物理刺激（如海浪、船只或您在屏幕上的点击）时，这两种物质在氧气的参与下发生反应，从而释放出蓝色的冷光。</p>
+                            <p>这个过程的效率非常高，几乎所有的能量都以光的形式释放，而不是热量。</p>
+                        </div>
+                    </section>
+                    
+                    <section class="card" id="debate">
+                        <img src="New_Project_-_2025-04-24T093635_214.jpg" alt="游客在夜间海滩" class="card-image">
+                        <div class="card-content">
+                            <h2>欣赏还是打扰？</h2>
+                            <p>一个核心的思辨是：当游客为了观赏，用光照、船只甚至丢石子去“开启”蓝眼泪时，我们是在欣赏自然，还是在打扰自然？</p>
+                            <p>让“看见蓝眼泪”不只是一次浪漫的经历，而是一场对自然的尊重与思考。</p>
+                        </div>
+                    </section>
+                </div>
+                
+                <div>
+                    <aside class="key-terms-box">
+                        <h3>关键术语</h3>
+                        <p><strong>荧光素 (Luciferin):</strong><br>
+                        一种化学底物，在反应中被氧化并发光。</p>
+                        <p><strong>荧光素酶 (Luciferase):</strong><br>
+                        一种酶（生物催化剂），它极大地加速了荧光素与氧气的反应。</p>
+                    </aside>
+                    
+                    <section class="card" id="interactive-fact">
+                        <div class="card-content">
+                            <div class="video-container">
+                                <iframe src="//player.bilibili.com/player.html?bvid=BV1am5Uz1E5e&page=1"
+                                    scrolling="no" border="0" frameborder="no" framespacing="0"
+                                    allowfullscreen="true">
+                                </iframe>
+                            </div>
+                            
+                            <h2>互动一下</h2>
+                            <p>点开看看“蓝眼泪”的另一面：</p>
+                            <button id="fact-button">点我看一个关于“蓝眼泪”的冷知识</button>
+                            <div id="fact-content">
+                                <p><strong>冷知识：</strong>“蓝眼泪”也可能反映了**富营养化**的风险。当营养物质过剩时，夜光藻会大量繁殖，在白天形成“赤潮”，它们死亡分解时会消耗大量氧气，威胁其他海洋生物。</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                
+            </div>
+        </main>
+    </div>
+
+    <div id="page-guide" class="page-content">
+        <main>
+            <a href="#" class="back-link" data-page-link="home">&lt; 返回首页</a>
+            
+            <section id="how-to-see" class="card">
+                <div class="card-content">
+                    <h2>观赏指南</h2>
+                    <p>想要亲眼目睹这一奇观，需要一点耐心和运气。以下是一些建议：</p>
+                    
+                    <h3>如何“追泪”？</h3>
+                    <ul>
+                        <li><strong>最佳季节：</strong> 在深圳及广东沿海，通常在春末到初夏（4月至6月）。</li>
+                        <li><strong>最佳天气：</strong> 通常在连续晴朗、天气回暖、风平浪静的日子里更容易聚集。</li>
+                        <li><strong>最佳地点：</strong> 选择远离城市光污染的海滩。在大梅沙，尽量走到沙滩最暗的区域。</li>
+                        <li><strong>注意安全：</strong> “追泪”都是在夜晚，请务必注意脚下安全，最好结伴而行。</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <div id="page-protection" class="page-content">
+        <main>
+            <a href="#" class="back-link" data-page-link="home">&lt; 返回首页</a>
+            
+            <section id="protection-guide" class="card">
+                <div class="card-content">
+                    <h2>生态守护指南</h2>
+                    <p>“蓝眼泪”是浪漫的奇观，但它也极其脆弱。正确的观赏方式是实现“追逐”与“守护”共存的第一步。</p>
+                    
+                    <h3>守护行动 (如何保护)</h3>
+                    <ul>
+                        <li><strong>请勿独自前往礁石区，注意人身安全。</strong></li>
+                        <li><strong>请勿乱丢垃圾破坏海洋生态。</strong></li>
+                        <li><strong>请勿长时间开启闪光灯或强光手电照射。</strong> 这容易抑制生物发光机能，干扰其夜间节律，惊扰其他海洋生物等。</li>
+                        <li><strong>避免大声喧哗或丢掷石块</strong>，反思自己的行为，避免对生态造成不必要的扰动。</li>
+                        <li><strong>传播科学</strong>，帮助他人理解蓝眼泪的科学成因，推动更多人参与可持续的保护行动。</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <div id="page-project" class="page-content">
+        <main>
+            <a href="#" class="back-link" data-page-link="home">&lt; 返回首页</a>
+            
+            <h1 class="project-main-title">蓝眼泪认知调研与生态守护行动</h1>
+            
+            <section class="card" id="project-origin">
+                <img src="IMG_9136.jpeg" alt="学生团队讨论" class="card-image">
+                <div class="card-content">
+                    <h2>项目起源与目标</h2>
+                    <p>2024年4月底，深圳大梅沙的蓝眼泪报导引发热议。在老师的带领下，我们实地观赏后，产生了一系列思考：蓝眼泪如何形成？它会对社区造成什么改变？ 环保主义者认为，游客的追逐可能会破坏这种脆弱的生态循环。</p>
+                    <p>基于此，本项目采用“教师指导+学生自主调研”模式，以“蓝眼泪认知调研与生态守护行动”为主题，系统调研它的科学成因、公众认知，并探索可持续发展方向。</p>
+                </div>
+            </section>
+            
+            <section class="card" id="project-research">
+                <div class="card-content">
+                    <h2>调研过程与发现</h2>
+                    <p>我们以明晰市民的认知特征与保护意愿为目标，设计了聚焦“认知-体验-行为-意愿”四维度的调研问卷。问卷通过小红书、微信等社交媒体发放，最终筛选出80份有效样本。</p>
+                    
+                    <h3>调研发现：</h3>
+                    <ul>
+                        <li><strong>高知名度，低深度认知：</strong> 92.5%的游客听说过蓝眼泪，但仍有约30%的受访者对其科学成因（浮游生物发光）存在认知误区。</li>
+                        <li><strong>认知差异：</strong> 企业职员的平均认知评分最高（约3.17分），其次是学生（约2.95分），而教育工作者和自由职业者相对较低（约2.60分）。</li>
+                        <li><strong>提升空间：</strong> 数据显示，我们需要提高不同人群对蓝眼泪的认知水平，以助力生态环保。</li>
+                    </ul>
+                    
+                    <div class="project-grid">
+                        <div>
+                            <img src="截屏2025-11-13 20.11.37.png" alt="蓝眼泪认知占比图" class="chart-image">
+                            <p class="chart-caption">图1: 样本对蓝眼泪现象的认知占比</p>
+                        </div>
+                        <div>
+                            <img src="截屏2025-11-13 20.15.29.png" alt="不同职业游客的平均认知评分" class="chart-image">
+                            <p class="chart-caption">图2: 不同职业游客的平均认知评分</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="card" id="project-outcomes">
+                <div class="card-content">
+                    <h2>我们的项目成果</h2>
+                    <p>为了填补公众对蓝眼泪的认知空白，推动生态保护行动，我们产出了以下成果：</p>
+                    <div class="promo-grid">
+                        <div class="promo-card" style="background-image: url('2f757ba0badf85021fc9424d46cb6d74.jpeg');">
+                             <div>
+                                <span class="category">实物成果</span>
+                                <h3>科普生态瓶</h3>
+                                <p>瓶中装有我们精心喂养的夜光藻。在黑暗中摇晃，它会泛起蓝光，如同一个“缩小版的海洋”。</p>
+                            </div>
+                            <img src="2f757ba0badf85021fc9424d46cb6d74.jpeg" alt="夜光藻生态瓶" class="fallback-image">
+                        </div>
+                        <div class="promo-card" style="background-image: url('截屏2025-11-14 09.50.39.png');">
+                             <div>
+                                <span class="category">视觉设计</span>
+                                <h3>科普手册与海报</h3>
+                                <p>我们设计了科普手册，用海洋蓝主色调和实景图，直白地讲解科学原理，并强调“观赏时别破坏生态”的责任。</p>
+                            </div>
+                            <img src="截屏2025-11-14 09.50.39.png" alt="蓝眼泪科普海报" class="fallback-image">
+                        </div>
+                        <div class="promo-card" style="background-image: url('https://source.unsplash.com/random/800x500/?website,code');">
+                             <div>
+                                <span class="category">数字平台</span>
+                                <h3>保护网页</h3>
+                                <p>您正在浏览的这个网站，正是我们项目成果之一。我们希望通过线上平台，弥补认知差距，推动生态保护。</p>
+                            </div>
+                            <img src="https://source.unsplash.com/random/800x500/?website,code" alt="网页示意图" class="fallback-image">
+                        </div>
+                        <div class="promo-card" style="background-image: url('https://source.unsplash.com/random/800x500/?video,play,button');">
+                             <div>
+                                <span class="category">多媒体</span>
+                                <h3>宣传视频</h3>
+                                <p>我们收集了大量过程性材料，经过多次调整和迭代，制作了宣传视频，积累了宝贵的实践经验。</p>
+                            </div>
+                            <img src="https://source.unsplash.com/random/800x500/?video,play,button" alt="视频示意图" class="fallback-image">
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+        </main>
+    </div>
+    
+    <footer>
+        <p>一个由 Gemini 创建的演示网站 (V15.10 - 添加项目页标题)</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- 1. 分页导航逻辑 ---
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pages = document.querySelectorAll('.page-content');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault(); 
+                    const pageId = link.getAttribute('data-page');
+                    navLinks.forEach(nav => nav.classList.remove('active'));
+                    pages.forEach(page => page.classList.remove('active'));
+                    link.classList.add('active');
+                    document.getElementById('page-' + pageId).classList.add('active');
+                    window.scrollTo(0, 0);
+                });
+            });
+
+            // --- 2. Canvas 交互逻辑 ---
+            const canvas = document.getElementById('blue-tears-canvas');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                const beachSection = document.getElementById('dameisha-beach');
+                canvas.width = beachSection.clientWidth;
+                canvas.height = beachSection.clientHeight;
+
+                let particles = [];
+                const particleCount = 100;
+                const mouse = { x: null, y: null };
+                let isMouseDown = false;
+
+                window.addEventListener('resize', () => {
+                    canvas.width = beachSection.clientWidth;
+                    canvas.height = beachSection.clientHeight;
+                });
+
+                canvas.addEventListener('mousemove', (event) => {
+                    mouse.x = event.offsetX;
+                    mouse.y = event.offsetY;
+                    if (!isMouseDown) {
+                        for (let i = 0; i < 3; i++) particles.push(new Particle(mouse.x, mouse.y));
+                    }
+                });
+
+                canvas.addEventListener('click', (event) => {
+                    mouse.x = event.offsetX;
+                    mouse.y = event.offsetY;
+                    for (let i = 0; i < 30; i++) particles.push(new Particle(mouse.x, mouse.y));
+                });
+                
+                canvas.addEventListener('mousedown', (event) => {
+                    isMouseDown = true;
+                    mouse.x = event.offsetX;
+                    mouse.y = event.offsetY;
+                });
+
+                canvas.addEventListener('mouseup', () => { isMouseDown = false; });
+                canvas.addEventListener('mouseout', () => { isMouseDown = false; });
+
+                class Particle {
+                    constructor(x, y) {
+                        this.x = x || Math.random() * canvas.width;
+                        this.y = y || Math.random() * canvas.height;
+                        this.size = Math.random() * 2 + 1;
+                        this.speedX = Math.random() * 2 - 1;
+                        this.speedY = Math.random() * 2 - 1;
+                        this.life = 1; 
+                        this.lifeDecay = Math.random() * 0.02 + 0.005;
+                    }
+                    update() {
+                        this.x += this.speedX; this.y += this.speedY;
+                        this.life -= this.lifeDecay; 
+                        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+                    }
+                    draw() {
+                        ctx.beginPath();
+                        ctx.globalCompositeOperation = 'lighter';
+                        let gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size * 2);
+                        const color = `rgba(0, 200, 255, ${this.life})`;
+                        const haloColor = `rgba(0, 150, 255, ${this.life * 0.1})`;
+                        gradient.addColorStop(0, color); gradient.addColorStop(1, haloColor);
+                        ctx.fillStyle = gradient;
+                        ctx.arc(this.x, this.y, this.size * 2, 0, Math.PI * 2);
+                        ctx.fill(); ctx.closePath();
+                    }
+                }
+
+                function init() {
+                    particles = [];
+                    for (let i = 0; i < particleCount; i++) particles.push(new Particle());
+                }
+
+                function animate() {
+                    ctx.globalCompositeOperation = 'source-over';
+                    ctx.fillStyle = 'rgba(0, 21, 41, 0.15)';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    if (isMouseDown) {
+                        for (let i = 0; i < 7; i++) particles.push(new Particle(mouse.x, mouse.y));
+                    }
+                    for (let i = particles.length - 1; i >= 0; i--) {
+                        particles[i].update(); particles[i].draw();
+                        if (particles[i].life <= 0) particles.splice(i, 1);
+                    }
+                    if (Math.random() > 0.9) particles.push(new Particle());
+                    requestAnimationFrame(animate); 
+                }
+                init();
+                animate();
+            }
+            
+            // --- 3. "冷知识"按钮交互逻辑 ---
+            const factButton = document.getElementById('fact-button');
+            const factContent = document.getElementById('fact-content');
+
+            if (factButton) {
+                factButton.addEventListener('click', () => {
+                    if (factContent.style.display === 'none' || factContent.style.display === '') {
+                        factContent.style.display = 'block';
+                        factButton.textContent = '隐藏冷知识';
+                    } else {
+                        factContent.style.display = 'none';
+                        factButton.textContent = '点我看一个关于“蓝眼泪”的冷知识';
+                    }
+                });
+            }
+            
+            // --- 4. 首页/返回 链接跳转逻辑 ---
+            const pageLinks = document.querySelectorAll('[data-page-link]');
+            
+            pageLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pageId = link.getAttribute('data-page-link');
+                    const navLinkToClick = document.querySelector(`.nav-link[data-page="${pageId}"]`);
+                    if (navLinkToClick) {
+                        navLinkToClick.click();
+                    }
+                });
+            });
+            
+        });
+    </script>
+</body>
+</html>
